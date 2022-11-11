@@ -21,7 +21,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "typescript": "tsc --project tsconfig.json --noEmit",
-    "lint": "eslint src --color"
+    "lint": "eslint src --color",
+    "prettier": "prettier src -check"
   },
   "eslintConfig": {
     "extends": [
