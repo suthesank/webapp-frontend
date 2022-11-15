@@ -6,8 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadComingSoon } from "./actions/actions";
 import { AppState } from "./index";
 import Home from "./views/home";
-import SecondPage from "./views/second_page/second_page";
-import NestedView from "./views/second_page/nested_view";
+import NestedPage from "./views/nested_page/nested_page";
+import NestedView from "./views/nested_page/nested_view";
+import ProtectedPage from "./views/protected_page";
+import Login from "./views/login";
+import ProtectedNestedView from "./views/nested_page/protected_nested_view";
+import ProtectedRoute from "./utilities/protected_route_handler";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,9 +32,24 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="second_page" element={<SecondPage />}>
+          <Route path="nested_page" element={<NestedPage />}>
             <Route path="nested_view" element={<NestedView />} />
+            <Route
+              path="protected_nested_view"
+              element={
+                <ProtectedRoute nested_view={true}>
+                  <ProtectedNestedView />
+                </ProtectedRoute>
+              }
+            />
           </Route>
+
+          {/* All protected pages will go inside this parent route */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="protected_page" element={<ProtectedPage />} />
+          </Route>
+
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
