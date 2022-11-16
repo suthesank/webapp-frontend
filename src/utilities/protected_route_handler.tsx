@@ -13,14 +13,16 @@ export default function ProtectedRoute({
 
   console.log(isAuthenticated);
   // Handle either redirection to login page or showing a login button to redirect to login page here
-  if (!isAuthenticated) {
-    if (nested_view) {
-      return <p>Show login button here</p>;
-    } else {
-      if (!isLoading) {
+  if (!isLoading) {
+    if (!isAuthenticated) {
+      if (nested_view) {
+        return <p>Show login button here</p>;
+      } else {
         loginWithRedirect();
-      } else return <></>;
+      }
+    } else {
+      return children ? children : <Outlet />;
     }
   }
-  return children ? children : <Outlet />;
+  return <></>;
 }
