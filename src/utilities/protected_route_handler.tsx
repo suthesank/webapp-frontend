@@ -1,5 +1,6 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ProtectedRoute({
   children,
@@ -8,16 +9,18 @@ export default function ProtectedRoute({
   children?: JSX.Element;
   nested_view?: boolean;
 }): JSX.Element {
-  // Check for authentication status using auth0 sdk here
-  const is_authenticated = false;
+  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
+  console.log(isAuthenticated);
   // Handle either redirection to login page or showing a login button to redirect to login page here
-  if (!is_authenticated) {
-    return nested_view ? (
-      <p>Show login button here</p>
-    ) : (
-      <Navigate to="/login" replace />
-    );
+  if (!isAuthenticated) {
+    if (nested_view) {
+      return <p>Show login button here</p>;
+    } else {
+      if (!isLoading) {
+        loginWithRedirect();
+      } else return <></>;
+    }
   }
   return children ? children : <Outlet />;
 }

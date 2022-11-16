@@ -8,6 +8,7 @@ import createSagaMiddleware from "@redux-saga/core";
 import { Provider } from "react-redux";
 import reducer from "./store/reducer";
 import mySaga from "./sagas/saga";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({ reducer });
@@ -18,10 +19,17 @@ sagaMiddleware.run(mySaga);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+console.log(window.location.origin);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Auth0Provider
+        domain={process.env.REACT_APP_AUTH0_DOMAIN!} // eslint-disable-line @typescript-eslint/no-non-null-assertion
+        clientId={process.env.REACT_APP_CLIENT_ID!} // eslint-disable-line @typescript-eslint/no-non-null-assertion
+        redirectUri={window.location.origin}
+      >
+        <App />
+      </Auth0Provider>
     </Provider>
   </React.StrictMode>
 );
