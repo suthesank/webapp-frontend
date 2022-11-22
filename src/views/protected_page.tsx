@@ -5,7 +5,7 @@ export default function ProtectedPage() {
   const { logout } = useAuth0();
   return (
     <>
-      <p>This is a protected page</p>;
+      <p>This is a protected page</p>
       <button onClick={() => logout({ returnTo: window.location.origin })}>
         Log Out
       </button>
